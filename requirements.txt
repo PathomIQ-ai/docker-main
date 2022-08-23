@@ -1,0 +1,17 @@
+pandas
+boto3
+awscli==1.22.97
+Cython==0.29.28
+hdf5plugin==3.2.0
+jupyter==1.0.0
+jupyterlab==3.3.2
+jupyterlab-pygments==0.1.2
+jupyterplot==0.0.3
+matplotlib-inline==0.1.3
+openpyxl==3.0.9
+openslide_python
+seaborn==0.11.2
+tqdm==4.64.0
+mlflow
+tables==3.7.0
+kmeans_pytorch
