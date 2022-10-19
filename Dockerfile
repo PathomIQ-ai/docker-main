@@ -1,5 +1,5 @@
 # Build from CUDA-Optimized Pytorch Base Image
-FROM nvcr.io/nvidia/pytorch:21.10-py3
+FROM nvcr.io/nvidia/pytorch:22.08-py3
 
 # Sync Timezone
 RUN \
@@ -11,7 +11,7 @@ RUN apt-get update && apt-get install -y \
     curl ca-certificates rsync git bzip2 tzdata libx11-6 \
 	autoconf automake libtool pkg-config libgtk2.0-dev fuse \
     libtiff-dev libxml2-dev libsqlite3-dev libcurl4-openssl-dev \
-    libssl-dev libfuse-dev parallel sudo zip unzip libopenjp2-7 && \
+    libssl-dev libfuse-dev parallel sudo zip unzip libopenjp2-7 nfs-common && \
     rm -rf /var/lib/apt/lists/*
 
 # Install AWS CLI
@@ -95,22 +95,23 @@ RUN pip install --upgrade https://github.com/Lasagne/Lasagne/archive/master.zip
 # Cleanup Install Folders
 RUN sudo rm -r /workspace/*
 RUN sudo rm -r /tmp/*
-
+RUN sudo mkdir /efs
+RUN sudo chmod 777 /efs
 
 # Create Local User and Directory
 RUN useradd -ms /bin/bash ec2-user
-USER ec2-user
+# USER ec2-user
 WORKDIR /home/ec2-user/
-RUN mkdir /home/ec2-user/scratch
+
 
 # Configure Credentials
-RUN aws configure set aws_access_key_id AKIA3EZURXYHQK6C6F52
-RUN aws configure set aws_secret_access_key 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
-RUN aws configure set default.region us-west-2
-RUN git config --global credential.helper '!aws codecommit credential-helper $@'
-RUN git config --global credential.UseHttpPath true
+# RUN aws configure set aws_access_key_id AKIA3EZURXYHQK6C6F52
+# RUN aws configure set aws_secret_access_key 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
+# RUN aws configure set default.region us-west-2
+# RUN git config --global credential.helper '!aws codecommit credential-helper $@'
+# RUN git config --global credential.UseHttpPath true
 
 
-COPY entrypoint.sh /home/ec2-user/entrypoint.sh
+COPY initiate.sh /home/ec2-user/initiate.sh
 
 ENTRYPOINT ["bash"]
