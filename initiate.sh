@@ -20,7 +20,7 @@ then
     --lr ${LEARNING_RATE} --train_sample ${TRAIN_SAMPLE} --valid_sample ${VALID_SAMPLE} --milestone ${MILESTONE} --epochs ${EPOCHS} \
     --workers ${WORKERS} --pretrain_experiment ${PRETRAIN_EXPERIMENT} --pretrain_run ${PRETRAIN_RUN} --pretrain_tissue ${PRETRAIN_TISSUE} \
     --pretrain_checkpoint ${PRETRAIN_CHECKPOINT} --split_type ${SPLIT_TYPE} --scheduler ${SCHEDULER} --patch_sizes ${PATCH_SIZES} --waist ${WAIST} \
-    --model ${MODEL}
+    --model ${MODEL} --optimizer ${OPTIMIZER}
 fi
 
 if [ ${MODE} == 'predict' ] 
