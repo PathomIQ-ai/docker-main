@@ -51,8 +51,9 @@ RUN wget https://github.com/s3fs-fuse/s3fs-fuse/archive/v1.86.tar.gz && \
     rm -rf s3fs-fuse-1.86 v1.86.tar.gz
 
 # Install Oracle JVM 8 for QuPath
-COPY jdk-8u321-linux-x64.tar.gz /opt
+# COPY jdk-8u321-linux-x64.tar.gz /opt
 WORKDIR /opt
+RUN wget https://javadl.oracle.com/webapps/download/GetFile/1.8.0_321-b07/df5ad55fdd604472a86a45a217032c7d/linux-i586/jdk-8u321-linux-x64.tar.gz
 RUN tar xzf jdk-8u321-linux-x64.tar.gz
 RUN rm jdk-8u321-linux-x64.tar.gz
 ENV JAVA_HOME=/opt/jdk1.8.0_321
