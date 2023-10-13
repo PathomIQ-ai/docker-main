@@ -8,7 +8,7 @@ RUN \
 
 # Install Basics
 RUN apt-get update && apt-get install -y \
-    curl ca-certificates rsync git bzip2 tzdata libx11-6 \
+    curl ca-certificates rsync git bzip2 tzdata libx11-6 ffmpeg libsm6 libxext6 \
 	autoconf automake libtool pkg-config libgtk2.0-dev fuse \
     libtiff-dev libxml2-dev libsqlite3-dev libcurl4-openssl-dev \
     libssl-dev libfuse-dev parallel sudo zip unzip libopenjp2-7 nfs-common && \
@@ -67,8 +67,9 @@ ENV QUPATH_EXE=/opt/qupath/QuPath/bin/QuPath
 RUN chmod u+x /opt/qupath/QuPath/bin/QuPath
 
 # Install SDKMan and Groovy
-RUN curl -s get.sdkman.io | bash
-RUN /bin/bash -c "source /root/.sdkman/bin/sdkman-init.sh; sdk version; sdk install groovy"
+#RUN curl -s get.sdkman.io | bash
+RUN curl -s "https://get.sdkman.io" | bash
+RUN /bin/bash -c "source $HOME/.sdkman/bin/sdkman-init.sh; sdk version; sdk install groovy"
 
 # Upgrade Numpy
 RUN pip install --upgrade numpy
@@ -105,14 +106,10 @@ RUN useradd -ms /bin/bash ec2-user
 WORKDIR /home/ec2-user/
 
 
-# Configure Credentials
-# RUN aws configure set aws_access_key_id AKIA3EZURXYHQK6C6F52
-# RUN aws configure set aws_secret_access_key 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
-# RUN aws configure set default.region us-west-2
-# RUN git config --global credential.helper '!aws codecommit credential-helper $@'
-# RUN git config --global credential.UseHttpPath true
-
-
 COPY initiate.sh /home/ec2-user/initiate.sh
+COPY entrypoint.sh /home/ec2-user/entrypoint.sh
+COPY praddx.sh /home/ec2-user/praddx.sh
+COPY pred.sh /home/ec2-user/pred.sh
+COPY feat_ext.sh /home/ec2-user/feat_ext.sh
 
 ENTRYPOINT ["bash"]
